@@ -1,11 +1,14 @@
 'use client';
 
+import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 import Input from '@/app/components/inputs/Input';
 import Button from '@/app/components/Button';
 import AuthSocialButton from './AuthSocialButton';
+import { toast } from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
 
 type variant = 'LOGIN' | 'REGISTER';
 
@@ -36,11 +39,27 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === 'REGISTER') {
-      // Axios Register
+      axios
+        .post('/api/register', data)
+        .catch(() => toast.error('Something went wrong!'))
+        .finally(() => setIsLoading(false));
     }
 
     if (variant === 'LOGIN') {
-      // NextAuth Login
+      signIn('credentials', {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error('Invalid credentials');
+          }
+
+          if (callback?.ok && !callback?.error) {
+            toast.success('Logged in!');
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
@@ -55,7 +74,8 @@ const AuthForm = () => {
             sm:mx-auto
             sm:w-full
             sm:max-w-md
-    '>
+      '
+    >
       <div
         className='
             bg-white
@@ -64,15 +84,17 @@ const AuthForm = () => {
             shadow
             sm:rounded-lg
             sm:px-10
-        '>
+        '
+      >
         <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
           {variant === 'REGISTER' && (
-            <Input 
-            id='name' 
-            label='Name' 
-            register={register} 
-            errors={errors}
-            disabled={isLoading} />
+            <Input
+              id='name'
+              label='Name'
+              register={register}
+              errors={errors}
+              disabled={isLoading}
+            />
           )}
           <Input
             id='email'
@@ -104,19 +126,22 @@ const AuthForm = () => {
                     inset-0
                     flex
                     items-center
-                  '>
+                  '
+            >
               <div className='w-full border-t border-gray-300'></div>
             </div>
             <div
               className='relative 
             flex 
             justify-center 
-            text-sm'>
+            text-sm'
+            >
               <span
                 className='
                 bg-white 
                 px-2 
-                text-gray-500'>
+                text-gray-500'
+              >
                 Or continue with
               </span>
             </div>
@@ -134,14 +159,15 @@ const AuthForm = () => {
         </div>
         <div
           className='
-          flex
-          gap-2
-          justify-center
-          text-sm
-          mt-6
-          px-2
-          text-gray-500
-          '>
+            flex 
+            gap-2 
+            justify-center 
+            text-sm 
+            mt-6 
+            px-2
+            text-gray-500 
+          '
+        >
           <div>
             {variant === 'LOGIN'
               ? 'New to Messenger?'
