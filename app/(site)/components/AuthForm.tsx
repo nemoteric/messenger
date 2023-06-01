@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { BsGithub, BsGoogle } from 'react-icons/bs';
-import Input from '@/app/components/inputs/Input';
-import Button from '@/app/components/Button';
-import AuthSocialButton from './AuthSocialButton';
-import { toast } from 'react-hot-toast';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { BsGithub, BsGoogle } from "react-icons/bs";
+import Input from "@/app/components/inputs/Input";
+import Button from "@/app/components/Button";
+import AuthSocialButton from "./AuthSocialButton";
+import { toast } from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-type variant = 'LOGIN' | 'REGISTER';
+type variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
   const session = useSession();
   const router = useRouter();
-  const [variant, setvariant] = useState<variant>('LOGIN');
+  const [variant, setvariant] = useState<variant>("LOGIN");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(
@@ -24,21 +24,21 @@ const AuthForm = () => {
     // them to the users page if they are
     () => {
       // Check if the user is authenticated
-      if (session?.status === 'authenticated') {
+      if (session?.status === "authenticated") {
         // If so, redirect to the users page
-        router.push('/users');
+        router.push("/users");
       }
     },
     [session?.status, router]
   );
 
   const toggleVariant = useCallback(() => {
-    if (variant === 'LOGIN') {
+    if (variant === "LOGIN") {
       // If the variant is login, change it to register
-      setvariant('REGISTER');
+      setvariant("REGISTER");
     } else {
       // Otherwise, change it to login
-      setvariant('LOGIN');
+      setvariant("LOGIN");
     }
   }, [variant]);
 
@@ -48,9 +48,9 @@ const AuthForm = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
@@ -59,22 +59,22 @@ const AuthForm = () => {
     setIsLoading(true);
 
     // If the user has selected to register, send the data to the backend.
-    if (variant === 'REGISTER') {
+    if (variant === "REGISTER") {
       // Make a POST request to the backend API to register the user.
       axios
-        .post('/api/register', data)
+        .post("/api/register", data)
         // If successful, sign the user in using their credentials.
-        .then(() => signIn('credentials', data))
+        .then(() => signIn("credentials", data))
         // If unsuccessful, display an error to the user.
-        .catch(() => toast.error('Something went wrong!'))
+        .catch(() => toast.error("Something went wrong!"))
         // Regardless of success or failure, stop loading.
         .finally(() => setIsLoading(false));
     }
 
     // 1. Check if the variant is LOGIN
-    if (variant === 'LOGIN') {
+    if (variant === "LOGIN") {
       // 2. If the variant is LOGIN, call signIn
-      signIn('credentials', {
+      signIn("credentials", {
         // 3. Spread the data object into the credentials object
         ...data,
         // 4. Disable redirecting after login
@@ -84,12 +84,12 @@ const AuthForm = () => {
         .then((callback) => {
           // 6. If the response is an error, show an error toast
           if (callback?.error) {
-            toast.error('Invalid credentials');
+            toast.error("Invalid credentials");
           }
 
           // 7. If the response is successful and there is no error, show a success toast
           if (callback?.ok && !callback?.error) {
-            toast.success('Logged in!');
+            toast.success("Logged in!");
           }
         })
         // 8. No matter what, set isLoading to false
@@ -106,12 +106,12 @@ const AuthForm = () => {
       .then((callback) => {
         // if the callback error is true, show error message
         if (callback?.error) {
-          toast.error('Invalid credentials');
+          toast.error("Invalid credentials");
         }
 
         // if the callback ok is true and no error, show success message
         if (callback?.ok && !callback?.error) {
-          toast.success('Logged in!');
+          toast.success("Logged in!");
         }
       })
       // set loading to false
@@ -138,7 +138,7 @@ const AuthForm = () => {
         '
       >
         <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
-          {variant === 'REGISTER' && (
+          {variant === "REGISTER" && (
             <Input
               id='name'
               label='Name'
@@ -165,7 +165,7 @@ const AuthForm = () => {
           />
           <div>
             <Button disabled={isLoading} fullWidth type='submit'>
-              {variant === 'LOGIN' ? 'Sign in' : 'Register'}
+              {variant === "LOGIN" ? "Sign in" : "Register"}
             </Button>
           </div>
         </form>
@@ -200,11 +200,11 @@ const AuthForm = () => {
           <div className='mt-6 flex gap-2'>
             <AuthSocialButton
               icon={BsGithub}
-              onClick={() => socialAction('github')}
+              onClick={() => socialAction("github")}
             />
             <AuthSocialButton
               icon={BsGoogle}
-              onClick={() => socialAction('google')}
+              onClick={() => socialAction("google")}
             />
           </div>
         </div>
@@ -220,12 +220,12 @@ const AuthForm = () => {
           '
         >
           <div>
-            {variant === 'LOGIN'
-              ? 'New to Messenger?'
-              : 'Already have an account?'}
+            {variant === "LOGIN"
+              ? "New to Messenger?"
+              : "Already have an account?"}
           </div>
           <div onClick={toggleVariant} className='underline cursor-pointer'>
-            {variant === 'LOGIN' ? 'Create an account' : 'Sign in'}
+            {variant === "LOGIN" ? "Create an account" : "Sign in"}
           </div>
         </div>
       </div>
