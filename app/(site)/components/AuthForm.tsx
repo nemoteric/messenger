@@ -19,13 +19,18 @@ const AuthForm = () => {
   const [variant, setvariant] = useState<variant>('LOGIN');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    // Check if the user is authenticated
-    if (session?.status === 'authenticated') {
-      // If so, redirect to the users page
-      router.push('/users');
-    }
-  }, [session?.status, router]);
+  useEffect(
+    // This code checks if the user is authenticated and redirects
+    // them to the users page if they are
+    () => {
+      // Check if the user is authenticated
+      if (session?.status === 'authenticated') {
+        // If so, redirect to the users page
+        router.push('/users');
+      }
+    },
+    [session?.status, router]
+  );
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -53,30 +58,41 @@ const AuthForm = () => {
     // Set loading state
     setIsLoading(true);
 
+    // If the user has selected to register, send the data to the backend.
     if (variant === 'REGISTER') {
-      // Register user
+      // Make a POST request to the backend API to register the user.
       axios
         .post('/api/register', data)
+        // If successful, sign the user in using their credentials.
         .then(() => signIn('credentials', data))
+        // If unsuccessful, display an error to the user.
         .catch(() => toast.error('Something went wrong!'))
+        // Regardless of success or failure, stop loading.
         .finally(() => setIsLoading(false));
     }
 
+    // 1. Check if the variant is LOGIN
     if (variant === 'LOGIN') {
-      // Login user
+      // 2. If the variant is LOGIN, call signIn
       signIn('credentials', {
+        // 3. Spread the data object into the credentials object
         ...data,
+        // 4. Disable redirecting after login
         redirect: false,
       })
+        // 5. Handle the response
         .then((callback) => {
+          // 6. If the response is an error, show an error toast
           if (callback?.error) {
             toast.error('Invalid credentials');
           }
 
+          // 7. If the response is successful and there is no error, show a success toast
           if (callback?.ok && !callback?.error) {
             toast.success('Logged in!');
           }
         })
+        // 8. No matter what, set isLoading to false
         .finally(() => setIsLoading(false));
     }
   };
