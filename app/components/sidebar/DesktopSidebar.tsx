@@ -3,14 +3,21 @@
 import useRoutes from "@/app/hooks/useRoutes";
 import { useState } from "react";
 import DesktopItem from "./DesktopItem";
+import { User } from "@prisma/client";
 
-const DesktopSidebar = () => {
+interface DesktopSidebarProps {
+  currentUser: User;
+}
+
+const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
   const routes = useRoutes();
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log({ currentUser });
+
   return (
     <div
-      className="
+      className='
         hidden
         lg:fixed
         lg:inset-y-0
@@ -25,24 +32,24 @@ const DesktopSidebar = () => {
         lg:flex
         lg:flex-col
         justify-between
-      "
+      '
     >
       <nav
-        className="
+        className='
         mt-4
         flex
         flex-col
         justify-between
-        "
+        '
       >
         <ul
-          role="list"
-          className="
+          role='list'
+          className='
             flex
             flex-col
             items-center
             space-y-1
-          "
+          '
         >
           {routes.map((item) => (
             <DesktopItem
