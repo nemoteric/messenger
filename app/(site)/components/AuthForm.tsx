@@ -20,15 +20,19 @@ const AuthForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    // Check if the user is authenticated
     if (session?.status === 'authenticated') {
+      // If so, redirect to the users page
       router.push('/users');
     }
   }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
+      // If the variant is login, change it to register
       setvariant('REGISTER');
     } else {
+      // Otherwise, change it to login
       setvariant('LOGIN');
     }
   }, [variant]);
@@ -46,16 +50,20 @@ const AuthForm = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // Set loading state
     setIsLoading(true);
 
     if (variant === 'REGISTER') {
+      // Register user
       axios
         .post('/api/register', data)
+        .then(() => signIn('credentials', data))
         .catch(() => toast.error('Something went wrong!'))
         .finally(() => setIsLoading(false));
     }
 
     if (variant === 'LOGIN') {
+      // Login user
       signIn('credentials', {
         ...data,
         redirect: false,
@@ -72,20 +80,25 @@ const AuthForm = () => {
         .finally(() => setIsLoading(false));
     }
   };
-
+  // social logins
   const socialAction = (action: string) => {
+    // set loading to true
     setIsLoading(true);
 
+    // call signIn and pass in the current action
     signIn(action, { redirect: false })
       .then((callback) => {
+        // if the callback error is true, show error message
         if (callback?.error) {
           toast.error('Invalid credentials');
         }
 
+        // if the callback ok is true and no error, show success message
         if (callback?.ok && !callback?.error) {
           toast.success('Logged in!');
         }
       })
+      // set loading to false
       .finally(() => setIsLoading(false));
   };
 

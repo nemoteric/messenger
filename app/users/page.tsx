@@ -1,9 +1,9 @@
+'use client';
+
+import { signOut } from 'next-auth/react';
+
 const Users = () => {
-  return (
-    <div>
-      <h1>Hello Users!</h1>
-    </div>
-  );
+  return <button onClick={() => signOut()}>Log Out</button>;
 };
 
 export default Users;

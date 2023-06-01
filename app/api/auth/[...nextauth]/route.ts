@@ -10,14 +10,17 @@ import prisma from '@/app/libs/prismadb';
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    // Github provider
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
+    // Google provider
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
+    // Credentials provider
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -25,7 +28,7 @@ export const authOptions: AuthOptions = {
         password: { label: 'password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !!credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid credentials');
         }
 
