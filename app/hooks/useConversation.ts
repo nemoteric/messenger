@@ -4,16 +4,11 @@
 // at all.
 
 import { useParams } from "next/navigation";
-import { use, useMemo } from "react";
+import { useMemo } from "react";
 
 const useConversation = () => {
-  // 1. Get the conversationId from the URL
-  //    using the useRouter hook from Next.js
   const params = useParams();
 
-  // 2. Check to see if the conversationId is defined
-  //    in the URL. If it's not, we can assume the
-  //    conversation is not open
   const conversationId = useMemo(() => {
     if (!params?.conversationId) {
       return "";
@@ -21,12 +16,8 @@ const useConversation = () => {
 
     return params.conversationId as string;
   }, [params?.conversationId]);
-
-  // 3. Return the conversationId and a boolean
-  //    indicating if the conversation is open or not
-  const isOpen = useMemo(() => {
-    !!conversationId;
-  }, [conversationId]);
+  // Use !! to convert to boolean, returns false if conversationId is null or undefined
+  const isOpen = useMemo(() => !!conversationId, [conversationId]);
 
   return useMemo(
     () => ({

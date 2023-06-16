@@ -1,4 +1,6 @@
 {
   "editor.tabSize": 2,
-  "prettier.jsxSingleQuote": true
+  "prettier.jsxSingleQuote": true,
+  "emmet.useInlineCompletions": true,
+  "prettier.trailingComma": "none"
 }
