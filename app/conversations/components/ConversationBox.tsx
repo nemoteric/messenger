@@ -119,7 +119,18 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
               </p>
             )}
           </div>
-          <p>{lastMessageText}</p>
+          {/* set text to bold or dim depending on whether message has been seen*/}
+          <p
+            className={clsx(
+              `
+              truncate 
+              text-sm
+              `,
+              hasSeen ? "text-gray-500" : "text-black font-medium"
+            )}
+          >
+            {lastMessageText}
+          </p>
         </div>
       </div>
     </div>
