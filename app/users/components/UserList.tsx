@@ -1,16 +1,21 @@
 "use client";
 
+// Import the User interface from the Prisma Client library
 import { User } from "@prisma/client";
+// Import the UserBox component
 import UserBox from "./UserBox";
 
+// Define the props that the component accepts
 interface UserListProps {
+  // The list of users
   items: User[];
 }
 
+// The actual component that renders the list of users
 const UserList: React.FC<UserListProps> = ({ items }) => {
   return (
     <aside
-      className='
+      className="
         fixed
         inset-y-0
         pb-20
@@ -24,17 +29,17 @@ const UserList: React.FC<UserListProps> = ({ items }) => {
         block
         w-full
         left-0
-      '
+      "
     >
-      <div className='px-5'>
-        <div className='flex-col'>
+      <div className="px-5">
+        <div className="flex-col">
           <div
-            className='
+            className="
             text-2xl
             font-bold
             text-neutral-800
             py-4
-          '
+          "
           >
             People
           </div>
