@@ -36,7 +36,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     // library here, to send HTTP requests in JavaScript.
     axios
       .post("/api/conversations", {
-        userId: data.id,
+        userId: data.id
       })
       // When the request finishes, the server will respond with the created conversation.
       // We can then redirect to the conversation page.
@@ -51,7 +51,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     <div
       // Handle clicks on the user box
       onClick={handleClick}
-      className="
+      className='
         w-full
         relative
         flex
@@ -63,25 +63,25 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
         rounded-lg
         transition
         cursor-pointer
-      "
+      '
     >
       <Avatar user={data} />
-      <div className="min-w-0 flex-1">
-        <div className="focus:outline-none">
+      <div className='min-w-0 flex-1'>
+        <div className='focus:outline-none'>
           <div
-            className="
+            className='
               flex
               justify-between
               items-center
               mb-1
-            "
+            '
           >
             <p
-              className="
+              className='
                 text-sm
                 font-medium
                 text-gray-900
-              "
+              '
             >
               {data.name}
             </p>

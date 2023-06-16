@@ -27,22 +27,22 @@ const useRoutes = () => {
         label: "Chat",
         href: "/conversations",
         icon: HiChat,
-        active: pathname === "/conversations" || !!conversationId,
+        active: pathname === "/conversations" || !!conversationId
       },
       // Add a route for the Users page
       {
         label: "Users",
         href: "/users",
         icon: HiUsers,
-        active: pathname === "/users",
+        active: pathname === "/users"
       },
       // Add a route for logging out
       {
         label: "Log out",
         href: "#",
         onClick: () => signOut(),
-        icon: HiArrowLeftOnRectangle,
-      },
+        icon: HiArrowLeftOnRectangle
+      }
     ],
     // Add all variables used in the hook's callback to the dependency array
     [pathname, conversationId]
