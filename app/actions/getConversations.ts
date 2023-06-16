@@ -13,6 +13,7 @@ const getConversations = async () => {
       orderBy: {
         lastMessageAt: "desc"
       },
+      // Show all conversations the user is a part of
       where: {
         userIds: {
           has: currentUser.id
