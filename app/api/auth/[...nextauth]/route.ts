@@ -1,11 +1,11 @@
-import bcrypt from "bcrypt";
-import NextAuth, { AuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import bcrypt from 'bcrypt'
+import NextAuth, { AuthOptions } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import GithubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
-import prisma from "@/app/libs/prismadb";
+import prisma from '@/app/libs/prismadb'
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,15 +22,15 @@ export const authOptions: AuthOptions = {
     }),
     // Credentials provider (email and password)
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "email", type: "text" },
-        password: { label: "password", type: "password" },
+        email: { label: 'email', type: 'text' },
+        password: { label: 'password', type: 'password' },
       },
       async authorize(credentials) {
         // Check if email and password are correct
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials')
         }
 
         // Find the user with the given email
@@ -38,37 +38,37 @@ export const authOptions: AuthOptions = {
           where: {
             email: credentials.email,
           },
-        });
+        })
 
         // If no user was found, or if the user has no password, throw an error
         if (!user || !user?.hashedPassword) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials')
         }
 
         // Check if the given password matches the user's hashed password
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.hashedPassword
-        );
+        )
 
         // If the passwords don't match, throw an error
         if (!isCorrectPassword) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials')
         }
 
         // If the credentials are valid, return the user
-        return user;
+        return user
       },
     }),
   ],
 
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
-};
+}
 
-const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions)
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import clsx from "clsx";
-import Link from "next/link";
+import clsx from 'clsx'
+import Link from 'next/link'
 
 interface DesktopItemProps {
-  label: string;
-  icon: any;
-  href: string;
-  onClick?: () => void;
-  active?: boolean;
+  label: string
+  icon: any
+  href: string
+  onClick?: () => void
+  active?: boolean
 }
 
 const DesktopItem: React.FC<DesktopItemProps> = ({
@@ -20,9 +20,9 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
 }) => {
   const handleClick = () => {
     if (onClick) {
-      return onClick();
+      return onClick()
     }
-  };
+  }
 
   return (
     <li onClick={handleClick}>
@@ -42,14 +42,14 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
           hover:text-black
           hover:bg-gray-100 
         `,
-          active && "bg-gray-100 text-black"
+          active && 'bg-gray-100 text-black'
         )}
       >
-        <Icon className='h-6 w-6 shrink-0' />
-        <span className='sr-only'>{label}</span>
+        <Icon className="h-6 w-6 shrink-0" />
+        <span className="sr-only">{label}</span>
       </Link>
     </li>
-  );
-};
+  )
+}
 
-export default DesktopItem;
+export default DesktopItem

@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import useConversation from "@/app/hooks/useConversation";
-import useRoutes from "@/app/hooks/useRoutes";
-import exp from "constants";
-import MobileItem from "./MobileItem";
+import useConversation from '@/app/hooks/useConversation'
+import useRoutes from '@/app/hooks/useRoutes'
+import exp from 'constants'
+import MobileItem from './MobileItem'
 
 const MobileFooter = () => {
-  const routes = useRoutes();
-  const { isOpen } = useConversation();
+  const routes = useRoutes()
+  const { isOpen } = useConversation()
 
   if (isOpen !== undefined && isOpen !== null) {
-    return null;
+    return null
   }
   return (
     <div
-      className='
+      className="
       fixed
       justify-between
       w-full
@@ -25,7 +25,7 @@ const MobileFooter = () => {
       bg-white
       border-t-[1px]
       lg:hidden
-    '
+    "
     >
       {routes.map((route) => (
         <MobileItem
@@ -37,7 +37,7 @@ const MobileFooter = () => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default MobileFooter;
+export default MobileFooter

@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import { usePathname } from "next/navigation";
-import { HiChat } from "react-icons/hi";
-import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
-import { signOut } from "next-auth/react";
-import useConversation from "./useConversation";
+import { useMemo } from 'react'
+import { usePathname } from 'next/navigation'
+import { HiChat } from 'react-icons/hi'
+import { HiArrowLeftOnRectangle, HiUsers } from 'react-icons/hi2'
+import { signOut } from 'next-auth/react'
+import useConversation from './useConversation'
 
 // This is a hook that returns an array of routes
 // based on the current pathname and conversationId
@@ -12,10 +12,10 @@ import useConversation from "./useConversation";
 const useRoutes = () => {
   // Get the current pathname from navigation
   // `pathname` holds the current path of the URL in the browser
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   // Get the current conversationId from the Conversation context
-  const { conversationId } = useConversation();
+  const { conversationId } = useConversation()
 
   // Create an array of routes, using React's useMemo
   // and return an array of route objects
@@ -24,32 +24,32 @@ const useRoutes = () => {
     () => [
       // Add a route for the Chat page
       {
-        label: "Chat",
-        href: "/conversations",
+        label: 'Chat',
+        href: '/conversations',
         icon: HiChat,
-        active: pathname === "/conversations" || !!conversationId
+        active: pathname === '/conversations' || !!conversationId,
       },
       // Add a route for the Users page
       {
-        label: "Users",
-        href: "/users",
+        label: 'Users',
+        href: '/users',
         icon: HiUsers,
-        active: pathname === "/users"
+        active: pathname === '/users',
       },
       // Add a route for logging out
       {
-        label: "Log out",
-        href: "#",
+        label: 'Log out',
+        href: '#',
         onClick: () => signOut(),
-        icon: HiArrowLeftOnRectangle
-      }
+        icon: HiArrowLeftOnRectangle,
+      },
     ],
     // Add all variables used in the hook's callback to the dependency array
     [pathname, conversationId]
-  );
+  )
 
   // Return the routes array
-  return routes;
-};
+  return routes
+}
 
-export default useRoutes;
+export default useRoutes

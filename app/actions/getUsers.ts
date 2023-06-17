@@ -1,23 +1,23 @@
 // Get the current user session.
 
-import prisma from "@/app/libs/prismadb";
+import prisma from '@/app/libs/prismadb'
 
-import getSession from "./getSession";
+import getSession from './getSession'
 
 const getUsers = async () => {
   // Get the current user session.
-  const session = await getSession();
+  const session = await getSession()
 
   // If there is no current user, return an empty array.
   if (!session?.user?.email) {
-    return [];
+    return []
   }
 
   try {
     // Get all users, sorted by their creation date.
     const users = await prisma.user.findMany({
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
       where: {
         // Exclude the current user from the list.
@@ -25,13 +25,13 @@ const getUsers = async () => {
           email: session.user.email,
         },
       },
-    });
+    })
 
-    return users;
+    return users
   } catch (error: any) {
     // If there was an error, return an empty array.
-    return [];
+    return []
   }
-};
+}
 
-export default getUsers;
+export default getUsers

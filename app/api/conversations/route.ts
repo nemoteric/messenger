@@ -1,19 +1,19 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import { NextResponse } from "next/server";
-import prisma from "@/app/libs/prismadb";
+import getCurrentUser from '@/app/actions/getCurrentUser'
+import { NextResponse } from 'next/server'
+import prisma from '@/app/libs/prismadb'
 
 export async function POST(request: Request) {
   try {
-    const currentUser = await getCurrentUser();
-    const body = await request.json();
-    const { userId, isGroup, members, name } = body;
+    const currentUser = await getCurrentUser()
+    const body = await request.json()
+    const { userId, isGroup, members, name } = body
 
     if (!currentUser?.email) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse('Unauthorized', { status: 401 })
     }
 
     if (isGroup && (!members || members.length < 2 || !name)) {
-      return new NextResponse("Invalid data", { status: 400 });
+      return new NextResponse('Invalid data', { status: 400 })
     }
 
     if (isGroup) {
@@ -35,9 +35,9 @@ export async function POST(request: Request) {
         include: {
           users: true,
         },
-      });
+      })
       // 1 on 1 conversations
-      return NextResponse.json(newConversation);
+      return NextResponse.json(newConversation)
     }
 
     // Check if conversation already exists
@@ -57,12 +57,12 @@ export async function POST(request: Request) {
           },
         ],
       },
-    });
+    })
 
-    const singleConversation = existingConversation[0];
+    const singleConversation = existingConversation[0]
 
     if (singleConversation) {
-      return NextResponse.json(singleConversation);
+      return NextResponse.json(singleConversation)
     }
 
     const newConversation = await prisma.conversation.create({
@@ -78,10 +78,10 @@ export async function POST(request: Request) {
           ],
         },
       },
-    });
+    })
 
-    return NextResponse.json(newConversation);
+    return NextResponse.json(newConversation)
   } catch (error: any) {
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse('Internal Error', { status: 500 })
   }
 }

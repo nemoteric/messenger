@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
 // Import the User interface from the Prisma Client library
-import { User } from "@prisma/client";
+import { User } from '@prisma/client'
 // Import the UserBox component
-import UserBox from "./UserBox";
+import UserBox from './UserBox'
 
 // Define the props that the component accepts
 interface UserListProps {
   // The list of users
-  items: User[];
+  items: User[]
 }
 
 // The actual component that renders the list of users
@@ -45,11 +45,14 @@ const UserList: React.FC<UserListProps> = ({ items }) => {
           </div>
         </div>
         {items.map((item) => (
-          <UserBox key={item.id} data={item} />
+          <UserBox
+            key={item.id}
+            data={item}
+          />
         ))}
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default UserList;
+export default UserList

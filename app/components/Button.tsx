@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import clsx from 'clsx';
+import clsx from 'clsx'
 
 // The Button component takes an optional type prop that determines the type of the button,
 // with a default value of 'button'. It also takes a fullWidth prop that determines whether
@@ -12,13 +12,13 @@ import clsx from 'clsx';
 // rendered as a danger button, with a default value of false. The disabled prop determines
 // whether the button should be disabled, with a default value of false.
 interface ButtonProps {
-  type?: 'button' | 'submit' | 'reset' | undefined;
-  fullWidth?: boolean;
-  children?: React.ReactNode;
-  onClick?: () => void;
-  secondary?: boolean;
-  danger?: boolean;
-  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset' | undefined
+  fullWidth?: boolean
+  children?: React.ReactNode
+  onClick?: () => void
+  secondary?: boolean
+  danger?: boolean
+  disabled?: boolean
 }
 
 // The Button component is a reusable button that can be used anywhere
@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {children}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button
