@@ -10,7 +10,10 @@ const Home = () => {
 
   return (
     <div
-      className={clsx('lg:pl-80 h-full lg:block', isOpen ? 'block' : 'hidden')}
+      className={clsx(
+        'lg:pl-80 h-full lg:block',
+        isOpen ? 'block' : 'hidden' // if the menu is open, show it, otherwise hide it
+      )}
     >
       <EmptyState />
     </div>

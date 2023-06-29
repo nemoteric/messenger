@@ -33,7 +33,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     setIsLoading(true)
 
     // Now we can send the request to the server. We're using the axios
-    // library here, to send HTTP requests in JavaScript.
+    // library here to send HTTP requests in JavaScript.
     axios
       .post('/api/conversations', {
         userId: data.id,

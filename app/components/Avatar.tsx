@@ -1,7 +1,6 @@
 'use client'
 
 import { User } from '@prisma/client'
-import { setConfig } from 'next/config'
 import Image from 'next/image'
 
 interface AvatarProps {

@@ -44,6 +44,7 @@ const UserList: React.FC<UserListProps> = ({ items }) => {
             People
           </div>
         </div>
+        {/* Iterate over `items` and render a `UserBox` component for each user */}
         {items.map((item) => (
           <UserBox
             key={item.id}
