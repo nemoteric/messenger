@@ -23,13 +23,19 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   const session = useSession()
   const router = useRouter()
 
+  // Define a handleClick callback function that will navigate to the conversation page when the conversation box is clicked
+  // Use the useCallback hook to memoize the function and the router.push() method to navigate to the /conversations/${data.id} route
+  // The dependencies array [data.id, router] means the handleClick function will only re-render if data.id or router changes
   const handleClick = useCallback(() => {
     router.push(`/conversations/${data.id}`)
   }, [data.id, router])
 
+  // This code uses the useMemo hook to memoize the last message in the conversation.
+  // It accesses data.messages, which is an array of messages passed as a prop.
+  // It gets the last message in the array and returns it. The dependencies array [data.messages] means
+  // the lastMessage value will recompute if data.messages changes.
   const lastMessage = useMemo(() => {
     const messages = data.messages || []
-
     return messages[messages.length - 1]
   }, [data.messages])
 
@@ -43,15 +49,15 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       return false
     }
 
-    // || with empty array to avoid undefined error when using filter
+    // Use || with empty array to avoid using filter on undefined
     const seenArray = lastMessage.seen || []
 
     if (!userEmail) {
       return false
     }
 
-    // array containing all users who have seen the sent message
-    // filter to check if the logged in user has seen the message
+    // Array containing all users who have seen the sent message
+    // Filter to check if the logged in user has seen the message
     return seenArray.filter((user) => user.email === userEmail).length !== 0
   }, [userEmail, lastMessage])
 
@@ -64,7 +70,11 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       return lastMessage.body
     }
 
+    // If none of the above, no message has been sent yet, so start a conversation
     return 'Started a conversation'
+    // A dependency array in a useMemo hook lists the values that the memoized value depends on.
+    // If any of those values change, the memoized value will recompute. In this code, the dependency
+    // array [lastMessage] means the lastMessageText value will recompute if lastMessage changes.
   }, [lastMessage])
 
   return (

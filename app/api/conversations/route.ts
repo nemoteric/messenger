@@ -8,11 +8,11 @@ export async function POST(request: Request) {
     const currentUser = await getCurrentUser()
     // Get request body
     const body = await request.json()
-    // Get properties from request body
+    // Extract all possible properties from `body`
     const { userId, isGroup, members, name } = body
 
     // Check if user is logged in
-    if (!currentUser?.email) {
+    if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
           users: {
             // Immediately connect the current user to the group chat using Prisma
             connect: [
-              // Create a connect object for each member except
+              // Create a connect object for each member (minus current user)
               ...members.map((member: { value: string }) => ({
                 id: member.value,
               })),
